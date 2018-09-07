@@ -16,24 +16,27 @@
 
 package controllers
 
+import auth.{GgAction, GovernmentGatewayProvider}
 import connectors.identityVerificationProxy.IdentityVerificationProxyConnector
 import models.registration._
 import org.mockito.ArgumentMatchers._
 import org.mockito.Mockito._
 import org.scalacheck.Arbitrary._
 import org.scalatest.mockito.MockitoSugar
+import play.api.mvc.Request
+import play.api.mvc.Results.Redirect
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import repositories.PersonalDetailsSessionRepository
 import resources._
 import services.RegistrationService
-import services.iv.IvService
+import services.iv.{IdentityVerificationService, IvService}
 import uk.gov.hmrc.auth.core.{Admin, AffinityGroup}
 import utils._
 
 import scala.concurrent.Future
 
-class IdentityVerificationSpec extends VoaPropertyLinkingSpec with MockitoSugar {
+  class IdentityVerificationSpec extends VoaPropertyLinkingSpec with MockitoSugar {
 
   "Successfully verifying identity when an organisation does not have a CCA account" must
     "register and enrol the user then redirect to the registration success page" in new TestCase {
@@ -69,6 +72,9 @@ class IdentityVerificationSpec extends VoaPropertyLinkingSpec with MockitoSugar 
     StubVplAuthConnector.stubUserDetails("externalId", testOrganisationInfo)
     StubIdentityVerification.stubSuccessfulJourney("successfuljourney")
     when(mockRegistrationService.create(any(), any())(any())(any(), any())).thenReturn(Future.successful(EnrolmentFailure))
+//    when(mockGovernmentGatewayProvider.redirectToLogin(any())).thenReturn( Future.successful(Redirect("redirect-url", Map("continue" -> Seq("test"), "origin" -> Seq("test-voa")))))
+//    when(mockGgAction.provider).thenReturn(mockGovernmentGatewayProvider)
+
 
     val res = TestIdentityVerification.success()(requestWithJourneyId("successfuljourney"))
 
@@ -81,6 +87,31 @@ class IdentityVerificationSpec extends VoaPropertyLinkingSpec with MockitoSugar 
     val res = TestIdentityVerification.success()(request.withSession("journey-id" -> "somejourneyid"))
     status(res) mustBe UNAUTHORIZED
   }
+
+  "Navigating to the iv failed page" must "return the failed page" in new TestCase {
+    val res = TestIdentityVerification.fail()(request)
+    status(res) mustBe OK
+    contentAsString(res) must include("Identity verification failed")
+  }
+
+  "Navigating to restoreSession" must "redirect to the iv success page" in new TestCase {
+    val res = TestIdentityVerification.restoreSession()(request)
+    status(res) mustBe SEE_OTHER
+    redirectLocation(res) mustBe Some(routes.IdentityVerification.success.url)
+  }
+
+//  "startIv" must "redirect to the iv start page when iv is enabled" in new TestCase {
+//
+////    val adminUser = AdminUser {}
+//
+//
+//    when(mockSessionRepoOrgDetails.get[AdminUser]).thenReturn(Future.successful(None))
+//    when(identityVerificationService)
+//
+//    val res = TestIdentityVerification.startIv()(request)
+//    status(res) mustBe SEE_OTHER
+//    redirectLocation(res) mustBe Some(routes.IdentityVerification.success.url)
+//  }
 
 
   trait TestCase {
@@ -123,6 +154,9 @@ class IdentityVerificationSpec extends VoaPropertyLinkingSpec with MockitoSugar 
       credentialRole = Admin)
 
     lazy val mockRegistrationService = mock[RegistrationService]
+    //    lazy val mockIdentityVerificationService = mock[IdentityVerificationService]
+    lazy val mockGgAction = mock[GgAction]
+    lazy val mockGovernmentGatewayProvider = mock[GovernmentGatewayProvider]
 
     lazy val stubIdentityVerificationServiceEnrolmentOrg = new IvService(StubVplAuthConnector, mockRegistrationService, mockSessionRepoOrgDetails, app.injector.instanceOf[IdentityVerificationProxyConnector], applicationConfig)
 
