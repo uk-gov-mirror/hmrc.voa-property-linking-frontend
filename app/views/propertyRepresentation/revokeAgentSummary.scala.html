@@ -21,12 +21,11 @@
 @import models.searchApi.AgentPropertiesParameters
 @(action: AgentRevokeBulkAction, agentOrganisation: String)(implicit request: AuthenticatedRequest[_], messages: Messages, config: ApplicationConfig)
 
-@heading = @{ Messages("propertyRepresentation.agentRemoveSummary.heading") }
 
 @main_template(
-heading,
-contentHeaderText = Some(heading),
-contentHeaderHidden = true
+title = Messages("propertyRepresentation.agentRemoveSummary.heading"),
+topBackLink = false,
+bottomBackLink = false
 ) {
 
 <div class="column-whole clearfix">
