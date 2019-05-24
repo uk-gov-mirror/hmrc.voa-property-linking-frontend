@@ -253,7 +253,7 @@ dashboard.home.addAnotherUser.text=To add another user, you’ll firstly need to
 #DASHBOARD MANAGE PROPERTIES
 dashboard.manageProperties.title=My properties
 dashboard.manageProperties.expectDelays=It may take several hours for your property to display here once you have claimed it.
-dashboard.manageProperties.noPropertiesMessage1=You haven't claimed any properties yet. You need to 
+dashboard.manageProperties.noPropertiesMessage1=You haven't claimed any properties yet. You need to
 dashboard.manageProperties.noPropertiesMessagelink=claim a property
 dashboard.manageProperties.noPropertiesMessage2=before you can check or challenge the rateable value.
 dashboard.manageProperties.noProperties=There are no properties to display.
@@ -342,7 +342,7 @@ label.viewAssessmentRadio=Valuation
 label.help=Help with {0}
 rv.na=Rateable value is N/A
 rv.na.p.1=This property has been removed from the rating list. This could be because it has a new address, the description has changed or it has been split or merged with another property.
-rv.na.p.2=If you want to view the detailed valuation or check or challenge this property, you’ll need to claim the new entry. You should only claim the property if you are eligible to do so as the owner or occupier for the period of time that the new entry relates to. 
+rv.na.p.2=If you want to view the detailed valuation or check or challenge this property, you’ll need to claim the new entry. You should only claim the property if you are eligible to do so as the owner or occupier for the period of time that the new entry relates to.
 rv.na.p.3=If you are looking to view the detailed valuation or check or challenge the previous entry, you should contact the VOA on 03000 501 501 or by emailing ccaservice@voa.gsi.gov.uk.
 
 #DASHBOARD DRAFT CASES
@@ -385,7 +385,7 @@ propertyRepresentation.removeAgent.title=Remove agent permissions
 propertyRepresentation.removeAgent.message.p1=You can remove an agent's ability to carry out checks and challenges on your behalf.
 propertyRepresentation.removeAgent.message.p2=Select an agent from the list below to remove them from one or more properties.
 propertyRepresentation.removeAgentProperties.title=Remove an agent
-propertyRepresentation.removeAgentProperties.message.p1=You can remove {0}''s (Agent ID: {1}) ability to carry out checks and challenges for the following properties:
+propertyRepresentation.removeAgentProperties.message.p1=You can remove {0}''s (Agent ID: {1}) ability to carry out checks and challenges for any of these properties:
 
 #Appoint agent
 propertyRepresentation.appointAgent.title=Appoint an agent
