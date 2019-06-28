@@ -118,7 +118,7 @@
                                     $('#textAddressData').append("<span>" + data[index]['subBuildingName']+ "</span><br>");
                                 }
                                 if(data[index]['buildingNumber'] != undefined) {
-                                    $('#textAddressData').append("<span>" + data[index]['buildingNumber'] + "</span>");
+                                    $('#textAddressData').append("<span>" + data[index]['buildingNumber'] + "</span><br>");
                                 }
                                 if(data[index]['buildingName'] != undefined) {
                                     $('#textAddressData').append("<span>" +  " "+ data[index]['buildingName']+ "</span><br>");
