@@ -1,0 +1,56 @@
+@*
+ * Copyright 2020 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *@
+
+@import binders.pagination.PaginationParameters
+
+
+@(resultCount: Int, previousUrl: String, nextUrl: String, paginationParameters: PaginationParameters)(implicit messages: Messages)
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-one-third">
+        <p class="govuk-body" style="margin-top: 20px">@messages("yourClientsProperties.totalResult", resultCount)</p>
+    </div>
+    <div class="govuk-grid-column-one-third">
+        <p>&nbsp;</p>
+    </div>
+    <div class="govuk-grid-column-one-third">
+        <nav role="navigation" aria-label="Pagination">
+            <ul class="pagination govuk-details" style="float: right;">
+                @if(paginationParameters.startPoint > 1) {
+                <li class="pagination__item">
+                    <a id="previous_page_link" class="pagination__link"
+                       href="@previousUrl" aria-label="Previous page">
+                        <span aria-hidden="true" role="presentation">&laquo;</span> Previous
+                    </a>
+                </li>
+                } else {
+                <li class="pagination__item"><span aria-hidden="true" role="presentation">Previous</span></li>
+                }
+
+                @if(resultCount > paginationParameters.startPoint + paginationParameters.pageSize - 1) {
+                <li class="pagination__item">
+                    <a id="next_page_link" class="pagination__link"
+                       href="@nextUrl" aria-label="Next page">Next <span aria-hidden="true" role="presentation">&raquo;</span></a>
+                </li>
+
+                } else {
+                <li class="pagination__item"><span aria-hidden="true" role="presentation">Next</span></li>
+                }
+
+            </ul>
+        </nav>
+    </div>
+</div>

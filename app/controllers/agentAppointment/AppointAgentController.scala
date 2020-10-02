@@ -67,7 +67,7 @@ class AppointAgentController @Inject()(
                    params = params,
                    pagination = AgentPropertiesParameters(
                      agentCode = agentCode,
-                     pageNumber = pagination.page,
+                     startPoint = pagination.startPoint,
                      pageSize = pagination.pageSize,
                      agentAppointed = agentAppointed.getOrElse(Both.name)
                    ),

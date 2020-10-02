@@ -545,7 +545,9 @@ propertyRepresentation.paginationInfo=Page {0} of {1}
 propertyRepresentation.appointAgents.showPropertiesNoAgent.link=<a href="{0}">Only show properties with no agent</a>
 propertyRepresentation.appointAgents.showAllProperties.link=<a href="{0}">Show all properties</a>
 
-
+#new pagination
+properties.pagination.showing=Showing {0} - {1} of {2} properties
+yourClients.totalResult=Total results: {0}
 
 ##Appoint agent summary
 propertyRepresentation.agentSummary.heading=Agent appointed

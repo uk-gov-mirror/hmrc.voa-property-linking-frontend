@@ -25,19 +25,19 @@ case class AgentPropertiesParameters(
       agentCode: Long,
       address: Option[String] = None,
       agentNameFilter: Option[String] = None,
-      pageNumber: Int = 1,
+      startPoint: Int = 1,
       pageSize: Int = 15,
       sortField: AgentPropertiesSortField = AgentPropertiesSortField.Address,
       sortOrder: SortOrder = SortOrder.Ascending,
       agentAppointed: String = Both.name) {
 
-  def startPoint: Int = (pageNumber - 1) * pageSize + 1
+ // def startPoint: Int = (pageNumber - 1) * pageSize + 1
 
   def reverseSorting: AgentPropertiesParameters = copy(sortOrder = sortOrder.reverse)
 
-  def previousPage: AgentPropertiesParameters = copy(pageNumber = pageNumber - 1)
+  def previousPage: AgentPropertiesParameters = copy(startPoint = startPoint - 1)
 
-  def nextPage: AgentPropertiesParameters = copy(pageNumber = pageNumber + 1)
+  def nextPage: AgentPropertiesParameters = copy(startPoint = startPoint + 1)
 
   def clear: AgentPropertiesParameters = copy(address = None, agentNameFilter = None)
 
@@ -64,20 +64,20 @@ object AgentPropertiesParameters {
           agentCode      <- bindParam[Long]("agentCode")
           address        <- bindParam[Option[String]]("address")
           agentName      <- bindParam[Option[String]]("agentName")
-          pageNumber     <- bindParam[Int]("pageNumber")
+          startPoint     <- bindParam[Int]("startPoint")
           pageSize       <- bindParam[Int]("pageSize")
           sortField      <- bindParam[AgentPropertiesSortField]("sortField")
           sortOrder      <- bindParam[SortOrder]("sortOrder")
           agentAppointed <- bindParam[String]("agentAppointed")
         } yield {
-          (agentCode, address, agentName, pageNumber, pageSize, sortField, sortOrder, agentAppointed) match {
-            case (Right(ac), Right(addr), Right(an), Right(pn), Right(ps), Right(sf), Right(so), Right(aa)) =>
+          (agentCode, address, agentName, startPoint, pageSize, sortField, sortOrder, agentAppointed) match {
+            case (Right(ac), Right(addr), Right(an), Right(sp), Right(ps), Right(sf), Right(so), Right(aa)) =>
               Right(
                 AgentPropertiesParameters(
                   agentCode = ac,
                   address = addr,
                   agentNameFilter = an,
-                  pageNumber = pn,
+                  startPoint = sp,
                   pageSize = ps,
                   sortField = sf,
                   sortOrder = so,
@@ -93,7 +93,7 @@ object AgentPropertiesParameters {
            |agentCode=${value.agentCode}&
            |address=${value.address.getOrElse("")}&
            |agentName=${value.agentNameFilter.getOrElse("")}&
-           |pageNumber=${value.pageNumber}&
+           |startPoint=${value.startPoint}&
            |pageSize=${value.pageSize}&
            |sortField=${value.sortField}&
            |sortOrder=${value.sortOrder}&

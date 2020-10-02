@@ -24,42 +24,34 @@ import utils.Cats
 import utils.QueryParamUtils.toQueryString
 
 case class PaginationParameters(
-      page: Int = 1,
-      pageSize: Int = 15
+      startPoint: Int = 1,
+      pageSize: Int = 15,
+      requestTotalRowCount: Boolean = true
 ) {
+  def previous = this.copy(startPoint = startPoint - pageSize)
+  def next = this.copy(startPoint = startPoint + pageSize)
 
-  def startPoint: Int = ((page - 1) * pageSize) + 1
-
-  def previousPage: PaginationParameters = this.copy(page = page - 1)
-
-  def nextPage: PaginationParameters = copy(page = page + 1)
+  override val toString = s"startPoint=$startPoint&pageSize=$pageSize&requestTotalRowCount=$requestTotalRowCount"
 
 }
 
-object PaginationParameters extends ValidationUtils {
+object PaginationParameters {
+  implicit def queryStringBindable(
+                                    implicit intBinder: QueryStringBindable[Int],
+                                    booleanBinder: QueryStringBindable[Boolean]): QueryStringBindable[PaginationParameters] =
+    new QueryStringBindable[PaginationParameters] {
+      override def bind(key: String, params: Map[String, Seq[String]]): Option[Either[String, PaginationParameters]] =
+        for {
+          startPoint           <- intBinder.bind("startPoint", params)
+          pageSize             <- intBinder.bind("pageSize", params)
+          requestTotalRowCount <- booleanBinder.bind("requestTotalRowCount", params)
+        } yield {
+          (startPoint, pageSize, requestTotalRowCount) match {
+            case (Right(sp), Right(ps), Right(rtrc)) => Right(PaginationParameters(sp, ps, rtrc))
+            case _                                   => Left("Unable to bind PaginationParams")
+          }
+        }
 
-  private val logger = Logger(this.getClass.getName)
-
-  implicit object Binder extends QueryStringBindable[PaginationParameters] with Cats {
-
-    override def bind(key: String, params: Map[String, Seq[String]]): Option[Either[String, PaginationParameters]] =
-      Some(validate(params).leftMap(_.map(_.message).toList.mkString(", ")).toEither)
-
-    override def unbind(key: String, value: PaginationParameters): String = toQueryString(value)
-
-    private def validate(params: Params): ValidationResult[PaginationParameters] =
-      (
-        validatePage("page", params),
-        validatePageSize("pageSize", params)
-      ).mapN {
-        logger.debug("validation of get pagination parameters")
-        PaginationParameters.apply _
-      }
-
-    def validatePage(implicit key: String, params: Params): ValidationResult[Int] =
-      readWithDefault("1")(key, params) andThen asInt
-
-    def validatePageSize(implicit key: String, params: Params): ValidationResult[Int] =
-      readWithDefault("15")(key, params) andThen asInt
-  }
+      override def unbind(key: String, value: PaginationParameters): String = s"$value"
+    }
 }

@@ -189,19 +189,19 @@
 
                 <div role="navigation" aria-label="Pagination" class="pull-right">
                     <ul class="pagination" style="margin: 0px">
-                        @if(pagination.page > 1) {
+                        @if(pagination.startPoint > 1) {
                             <li class="previous ">
-                                <a href="@controllers.agent.routes.ManageAgentController.manageAgentSearchSortProperties(agentCode, params, pagination.previousPage).url" role="link">
+                                <a href="@controllers.agent.routes.ManageAgentController.manageAgentSearchSortProperties(agentCode, params, pagination.previous).url" role="link">
                                     <i class="previous-arrow"></i>Previous</a>
                             </li>
                         } else {
                             <li class="previous disabled"><i class="previous-arrow"></i>Previous</li>
                         }
 
-                        <li class="active">@pagination.page</li>
+                        <li class="active">@pagination.startPoint</li>
                         @if(ownerAuthResult.filterTotal > pagination.startPoint + pagination.pageSize - 1) {
                             <li class="next">
-                                <a href="@controllers.agent.routes.ManageAgentController.manageAgentSearchSortProperties(agentCode, params, pagination.nextPage).url" role="link">Next<i class="next-arrow"></i></a></li>
+                                <a href="@controllers.agent.routes.ManageAgentController.manageAgentSearchSortProperties(agentCode, params, pagination.next).url" role="link">Next<i class="next-arrow"></i></a></li>
                         } else {
                             <li class="next disabled"><i class="next-arrow"></i>Next</li>
                         }
@@ -218,7 +218,7 @@
                     @if(pagination.pageSize == len) {
                         <span class="page-size-option-current">@len</span>
                     } else {
-                        <a class="page-size-option" href="@controllers.agent.routes.ManageAgentController.manageAgentSearchSortProperties(agentCode, params, pagination.copy(pageSize = len, page = 1)).url">
+                        <a class="page-size-option" href="@controllers.agent.routes.ManageAgentController.manageAgentSearchSortProperties(agentCode, params, pagination.copy(pageSize = len, startPoint = 1)).url">
                         @len</a>
                     }
                 }
