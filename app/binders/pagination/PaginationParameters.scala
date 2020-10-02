@@ -37,8 +37,8 @@ case class PaginationParameters(
 
 object PaginationParameters {
   implicit def queryStringBindable(
-                                    implicit intBinder: QueryStringBindable[Int],
-                                    booleanBinder: QueryStringBindable[Boolean]): QueryStringBindable[PaginationParameters] =
+        implicit intBinder: QueryStringBindable[Int],
+        booleanBinder: QueryStringBindable[Boolean]): QueryStringBindable[PaginationParameters] =
     new QueryStringBindable[PaginationParameters] {
       override def bind(key: String, params: Map[String, Seq[String]]): Option[Either[String, PaginationParameters]] =
         for {

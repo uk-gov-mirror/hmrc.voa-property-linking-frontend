@@ -31,7 +31,7 @@ case class AgentPropertiesParameters(
       sortOrder: SortOrder = SortOrder.Ascending,
       agentAppointed: String = Both.name) {
 
- // def startPoint: Int = (pageNumber - 1) * pageSize + 1
+  // def startPoint: Int = (pageNumber - 1) * pageSize + 1
 
   def reverseSorting: AgentPropertiesParameters = copy(sortOrder = sortOrder.reverse)
 
