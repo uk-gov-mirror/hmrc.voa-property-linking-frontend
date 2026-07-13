@@ -1,8 +1,7 @@
 $govuk-assets-path: "/business-rates-property-linking/assets/lib/govuk-frontend/dist/govuk/assets/";
 $hmrc-assets-path: "/business-rates-property-linking/assets/lib/hmrc-frontend/hmrc/";
 
-@import "lib/govuk-frontend/dist/govuk/all";
-@import "lib/hmrc-frontend/hmrc/all";
+@import "lib/govuk-frontend/dist/govuk/base";
 @import 'sortable';
 @import "../sass/modules/responsive-table";
 @import "../sass/modules/helpIcon";
@@ -75,41 +74,6 @@ details#report-a-problem {
 }
 .cca-nowrap {
     white-space: nowrap;
-}
-
-// Header account menu
-.cca-menu-account {
-	float: right;
-	margin-top: 13px;
-	margin-bottom: 0;
-	li {
-		float: left;
-		padding-right: 7px;
-		padding-left: 7px;
-		+ li {
-			border-left: 1px solid $govuk-border-colour;
-		}
-		&:last-child {
-			padding-right: 0;
-		}
-		&:first-child {
-			padding-left: 0;
-		}
-	}
-}
-.cca-menu-account--left {
-	float: left;
-}
-
-#remove-file {
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: #1d70b8;
-}
-
-#remove-file:focus {
-  @include govuk-focused-text;
 }
 
 .govuk-body.white{
